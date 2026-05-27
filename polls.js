@@ -1,3 +1,5 @@
+const { getRandomValues } = require("node:crypto");
+
 const poll = {
   question: "What's the best boba flavor?",
   options: ["Taro", "Matcha", "Strawberry"],
@@ -25,6 +27,13 @@ Activity 3
 // Arrow function to cast a vote
 const vote = (option) => {
 // your code here
+  if (option in poll.votes){
+    poll.votes[option] += 1;
+    console.log(`Voted for ${option}!`)
+  }
+  else{
+    console.log(`Invalid option!`)
+  }
 };
 
 // Given: Function to print current results
@@ -59,5 +68,21 @@ Activity 4
  *    - Wait between the votes (hint: await new Promise(...))
  */
 
+const simulateVotes = async () => {
+  const options = poll.options;
+
+  for (let i = 0; i < 5; i++){
+    const randomOption = options[Math.floor(Math.random() * options.length)];
+    vote(randomOption);
+
+    await new Promise(
+      resolve => setTimeout(resolve, 500)
+    );
+  }
+
+  printResults();
+
+} 
 // Call printResults()
 // Call simulateVotes()
+simulateVotes();
